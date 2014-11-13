@@ -14,8 +14,7 @@ char username[max_username];
 std::string REClama()
 {
 	std::string str;
-	str += "Здесь могла бы быть ваша реклама";
-	str+= "\r\n";
+	str += "Клинский промышленно-экономический техникум";
 	str+="\r\n";
 	str+= "E-mail: asavan@mail.ru";
 	return str;
@@ -93,7 +92,7 @@ int CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 			{
 				//DialogBox( 0, MAKEINTRESOURCE(IDD_ABOUT), hw, DlgProcAbout );
 			
-				MessageBox( hw, "Empty name", NULL, MB_ICONEXCLAMATION | MB_TASKMODAL);// убрать
+				MessageBox( hw, "Введите настоящее имя", NULL, MB_ICONEXCLAMATION | MB_TASKMODAL);// убрать
 				break;
 			}
 			EndDialog( hw, 0 );
@@ -161,40 +160,46 @@ int CALLBACK DlgProc( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 	return 0;
 }
 
-int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow ) 
-{
-	
-	HRESULT hr = 0;
-	try{
+static std::strstream* getFileFromResourse() {
 	HRSRC hRes=FindResource(NULL,"DataBase",RT_RCDATA);
 	if(!hRes)
 	{
-       return -1;
+		throw std::runtime_error("No database");
 	}
 	HGLOBAL hGlob=LoadResource(NULL,hRes);
     if(!hGlob) 
 	{
         //Обработка ошибки
-		return -1;
+		throw std::runtime_error("No database");
     }
     //И, наконец, последнее - получаем указатель на начало массива
     char *lpbArray=(char*)LockResource(hGlob); 
     if(!lpbArray) 
 	{
         //Обработка ошибки
-		return -1;
+		throw std::runtime_error("No database");
     }
 	DWORD dwFileSize=SizeofResource(NULL,hRes);
     if(!dwFileSize) 
 	{
         //Обработка ошибки
-		return -1;
+		throw std::runtime_error("No database");
     }
 	//std::ifstream ifs("db.rec",std::ios_base::binary);
-	std::strstream ifs(lpbArray,dwFileSize,std::ios_base::binary|std::ios_base::in);
-	if( ifs) 
+	std::strstream* ifs = new std::strstream (lpbArray,dwFileSize,std::ios_base::binary|std::ios_base::in);
+	return ifs;
+}
+
+int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow ) 
+{
+	
+	HRESULT hr = 0;
+	try{
+		// std::istream* ifs = getFileFromResourse();
+		std::ifstream* ifs = new std::ifstream("db.rec", std::ios_base::binary);
+	if( *ifs) 
 	 {
-		hr = ex.LoadFromFile( ifs );
+		hr = ex.LoadFromFile( *ifs );
 		if( SUCCEEDED( hr ) ) 
 		{
 			hr = ex.MakeAnswerOrder();
@@ -210,11 +215,12 @@ int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmd
 				MessageBox( HWND_DESKTOP, "Failed to initiate examine.", NULL, MB_OK |MB_ICONSTOP);
 			}
 		} else {
-			MessageBox( HWND_DESKTOP, "Failed to load database", NULL, MB_OK |MB_ICONSTOP);
+			MessageBox( HWND_DESKTOP, "База с вопросами повреждена", NULL, MB_OK |MB_ICONSTOP);
 		}
 	} else {
-		MessageBox( HWND_DESKTOP, "Failed to locate database", NULL, MB_OK| MB_ICONSTOP );
+		MessageBox( HWND_DESKTOP, "Не найдена база с вопросами", NULL, MB_OK| MB_ICONSTOP );
 	}
+	delete ifs;
 	}catch (std::exception &ex)
 	{
 		MessageBox( HWND_DESKTOP, ex.what(), NULL, MB_OK| MB_ICONSTOP );

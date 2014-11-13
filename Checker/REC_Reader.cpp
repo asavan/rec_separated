@@ -194,23 +194,29 @@ int CALLBACK DlgProc( HWND hw, UINT msg, WPARAM wp, LPARAM lp ) {
 	return 0;
 }
 
+static std::string addOneRow(const std::string& str1, const std::string str2)
+{
+	std::string str;
+	str+=str1;
+	str.push_back(0);
+	str+="*.";
+	str+=str2;
+	str.push_back(0);
+	return str;
+}
+
 std::string MakeFilter()
 {
-	std::string mass[] ={"философии", "социологии" };
-	std::string mass2[] ={"fre", "sre" };
+	std::string mass[] ={"Файлы экзаменов", "Философия", "Социология", "Экономика" };
+	std::string mass2[] ={"?re", "fre", "sre", "ere"};
 	std::string str;
-	for(int i = 0; i < 2; ++i)
+	for(int i = 0; i < sizeof(mass)/sizeof(mass[0]); ++i)
 	{
-		str+= "Файлы экзаменов по ";
-		str+=mass[i];
-		str+="\0*.";
-		str+=mass2[i];
-		str+="\n";
-
+		str+=addOneRow(mass[i], mass2[i]);
 	}
-	str+="Все файлы\n*.*\n";
 
-return str;
+	str+=addOneRow("Все файлы", "*");
+	return str;
 }
 
 BOOL GetFName( HINSTANCE hinst ) {
@@ -224,8 +230,8 @@ BOOL GetFName( HINSTANCE hinst ) {
 	ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST |OFN_ALLOWMULTISELECT;
 	ofn.lpstrFile = fname;
 	ofn.nMaxFile = max_len;
-	//std::string filter = MakeFilter();
-	ofn.lpstrFilter="Файлы экзаменов\0*.?re\0Философия\0*.fre\0Социология\0*.sre\0Все файлы\0*.*\0";//filter.c_str();// "Файлы экзаменов\0*.fre\0Все файлы\0*.*\0";
+	std::string filter = MakeFilter();
+	ofn.lpstrFilter = filter.c_str();
 	ofn.lStructSize = sizeof(ofn);
 	ofn.lpstrInitialDir=NULL; 
 	BOOL res = GetOpenFileName( &ofn );
