@@ -1,0 +1,108 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// Russian resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_RUS)
+#ifdef _WIN32
+LANGUAGE LANG_RUSSIAN, SUBLANG_DEFAULT
+#pragma code_page(1251)
+#endif //_WIN32
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+READER_IC      ICON   "admin.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_READER DIALOGEX 0, 0, 287, 250
+STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "REC Reader"
+FONT 13, "Verdana", 400, 0, 0xCC
+BEGIN
+	EDITTEXT        ED_ANSWER,7,30,273,153,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    PUSHBUTTON      "Следующий ->",BN_NEXT,157,220,60,22
+    PUSHBUTTON      "К статистике",BN_STAT,220,7,60,22
+    PUSHBUTTON      "<- Предыдущий",BN_PREV,95,220,60,22
+    PUSHBUTTON      "Выход\nи Сохранение",BN_EXIT,220,220,60,22,BS_MULTILINE
+    CONTROL         "Только непроверенные",CH_ONLY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,215,60,25
+    RTEXT           "",ST_INFO,18,7,100,22
+    CONTROL         "Автоматически к следующему",CH_AUTO,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,190,60,25
+    CONTROL         "Непроверено",BN_UNCHECKED,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,95,195,60,22
+    CONTROL         "Правильно",BN_TRUE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,157,195,60,22
+    CONTROL         "Неправильно",BN_FALSE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,220,195,60,22
+    LTEXT           "",ST_STAT,120,7,75,22
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO 
+BEGIN
+    IDD_READER, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 284
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 245
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+#endif    // Russian resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

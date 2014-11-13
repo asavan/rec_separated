@@ -1,0 +1,84 @@
+cmake_minimum_required(VERSION 2.6)
+project(REC_complex)
+
+##############################################################################
+#
+# GLOBAL VARIABLES
+
+#SET(CMAKE_INSTALL_PREFIX "")
+
+#SET(CMAKE_CXX_FLAGS "-Wall -O3 -funroll-loops -Wno-long-long -Wno-variadic-macros -fPIC")
+#SET(CMAKE_C_FLAGS "${CMAKE_CXX_FLAGS}")
+
+
+SET(DATA_DIR Database)
+SET(CODEC_DIR Codec)
+SET(CDBE_DIR Console_db_editor)
+
+##############################################################################
+#
+# INCLUDE_DIRECTORIES
+
+#INCLUDE_DIRECTORIES(include)
+
+include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+SET(LIB_PATH ${CMAKE_CURRENT_BINARY_DIR}/lib)
+MESSAGE(STATUS ${LIB_PATH})
+
+#include_directories(${CX_IMAGE_LIB})
+###############################################################################
+#
+# SOURCE_FILES
+
+##############################################################################################
+#
+# BINARY_FILES
+SET(DATABASE_SRC 
+	${DATA_DIR}/Database.cpp
+	${DATA_DIR}/Database.h
+)
+SET(CODEC_SRC
+	${CODEC_DIR}/codec.cpp
+	${CODEC_DIR}/codec.h
+)
+SET(CDBE_SRC
+	${CDBE_DIR}/main.cpp
+)
+#find_library(CODEC_LIB  	codec-st 	${LIB_PATH})
+#find_library(DATABASE_LIB  	database-st ${LIB_PATH})
+
+
+
+
+ADD_LIBRARY(database-st STATIC ${DATABASE_SRC})
+
+ADD_LIBRARY(codec-st STATIC ${CODEC_SRC})
+
+ADD_EXECUTABLE(cdbe.exe ${CDBE_SRC} )
+TARGET_LINK_LIBRARIES(cdbe.exe database-st codec-st)
+
+
+#ADD_SUBDIRECTORY( Checker				lib)
+
+#ADD_SUBDIRECTORY( Codec				codec)
+
+#ADD_SUBDIRECTORY( Console_db_editor	cdb)
+#ADD_SUBDIRECTORY( Database			db)
+#ADD_SUBDIRECTORY( Examen			lib)
+#ADD_SUBDIRECTORY( Settings 			lib)
+
+
+#SET(EXEC plugin  iconsmerge helper)
+#ADD_SUBDIRECTORY(resource lib)
+
+                
+
+###############################################################################
+# FIND_LIBRARIES
+
+
+
+#################################################################################################
+#
+# INSTALL_RULES
+#INSTALL(TARGETS ${EXEC}  DESTINATION lib)
