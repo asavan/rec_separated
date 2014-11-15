@@ -5,6 +5,7 @@
 #include <Windows.h>
 #include <WindowsX.h>
 #include <strstream>
+#include <fstream>
 
 Examination ex;
 size_t curr=0;

@@ -104,34 +104,42 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-READER_IC      ICON   "icon.ico"
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
 
-DataBase RCDATA "db.rec"
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+READER_IC               ICON                    "icon.ico"
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// RCDATA
+//
+
+DATABASE                RCDATA                  "db.rec"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_MAIN DIALOGEX 0, 0, 314, 247
+IDD_MAIN DIALOGEX 0, 0, 314, 187
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_MINIMIZEBOX | WS_CAPTION
-//CAPTION "Экзамен"
-//MENU IDC_QUESTIONER
-//ACCELERATOR IDC_QUESTIONER
 FONT 14, "Arial", 400, 0, 0xCC
 BEGIN
-    EDITTEXT        ED_QUESTION,7,24,300,80,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
-    EDITTEXT        ED_ANSWER,7,107,300,100,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
-    PUSHBUTTON      "<- Предыдущий вопрос",BN_PREV,7,210,100,30
-    PUSHBUTTON      "Следующий вопрос ->",BN_NEXT,109,210,100,30
-    PUSHBUTTON      "Выход и\nсохранение",BN_EXIT,227,210,80,30,BS_CENTER | BS_MULTILINE
+    EDITTEXT        ED_QUESTION,7,24,300,60,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    EDITTEXT        ED_ANSWER,7,87,300,60,ES_MULTILINE | ES_AUTOVSCROLL | ES_WANTRETURN | WS_VSCROLL
+    PUSHBUTTON      "<- Предыдущий вопрос",BN_PREV,7,150,100,30
+    PUSHBUTTON      "Следующий вопрос ->",BN_NEXT,109,150,100,30
+    PUSHBUTTON      "Выход и\nсохранение",BN_EXIT,227,150,80,30,BS_CENTER | BS_MULTILINE
     CTEXT           "Static",ST_NUMBER,7,7,227,10,SS_CENTERIMAGE
     CTEXT           "Static",ST_TIME,267,7,40,10,SS_CENTERIMAGE | SS_SUNKEN
 END
 
 IDD_LOGIN DIALOGEX 0, 0, 166, 103
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
-//CAPTION "Ввод данных"
 FONT 14, "Arial", 400, 0, 0xCC
 BEGIN
     CTEXT           "Введите имя и фамилию",IDC_STATIC,7,5,151,10
@@ -142,6 +150,13 @@ BEGIN
     GROUPBOX        "Экзаменационный комплекс REC",ST_GROUP,7,57,151,42,BS_CENTER
 END
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Bitmap
+//
+
+IDB_BITMAP1             BITMAP                  "C:\\G090102\\Projects\\REC_Sava\\icons\\Soc.bmp"
 #endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
