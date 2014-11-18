@@ -49,11 +49,12 @@ size_t q_zone::LoadZoneText (std::istream &is, int pro)
 
 }
 
-void ErrorInZone(size_t n)
+static void ErrorInZone(size_t n)
 {
-	std::string str("error in zone  ");
-	str+=IntToString(n);
-	throw std::exception(str.c_str());
+	std::string str("zone ");
+	str += IntToString(n+1);
+	str += " is empty";
+	throw std::runtime_error(str);
 }
 
 q_zone::q_zone(std::istream &is, int pro)
