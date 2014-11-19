@@ -45,31 +45,39 @@ BEGIN
 END
 
 #endif    // APSTUDIO_INVOKED
-READER_IC      ICON   "admin.ico"
 
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+READER_IC               ICON                    "admin.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_READER DIALOGEX 0, 0, 287, 250
+IDD_READER DIALOGEX 0, 0, 314, 187
 STYLE DS_SETFONT | DS_MODALFRAME | DS_CENTER | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "REC Reader"
 FONT 13, "Verdana", 400, 0, 0xCC
 BEGIN
-	EDITTEXT        ED_ANSWER,7,30,273,153,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
-    PUSHBUTTON      "Следующий ->",BN_NEXT,157,220,60,22
-    PUSHBUTTON      "К статистике",BN_STAT,220,7,60,22
-    PUSHBUTTON      "<- Предыдущий",BN_PREV,95,220,60,22
-    PUSHBUTTON      "Выход\nи Сохранение",BN_EXIT,220,220,60,22,BS_MULTILINE
-    CONTROL         "Только непроверенные",CH_ONLY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,215,60,25
+    EDITTEXT        ED_ANSWER,7,30,300,100,ES_MULTILINE | ES_AUTOVSCROLL | ES_READONLY | WS_VSCROLL
+    PUSHBUTTON      "Следующий ->",BN_NEXT,184,158,60,22
+    PUSHBUTTON      "К статистике",BN_STAT,247,7,60,22
+    PUSHBUTTON      "<- Предыдущий",BN_PREV,122,158,60,22
+    PUSHBUTTON      "Выход\nи Сохранение",BN_EXIT,247,158,60,22,BS_MULTILINE
+    CONTROL         "Только непроверенные",CH_ONLY,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,158,60,22
     RTEXT           "",ST_INFO,18,7,100,22
-    CONTROL         "Автоматически к следующему",CH_AUTO,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,190,60,25
-    CONTROL         "Непроверено",BN_UNCHECKED,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,95,195,60,22
-    CONTROL         "Правильно",BN_TRUE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,157,195,60,22
-    CONTROL         "Неправильно",BN_FALSE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,220,195,60,22
-    LTEXT           "",ST_STAT,120,7,75,22
+    CONTROL         "Автоматически к следующему",CH_AUTO,"Button",BS_AUTOCHECKBOX | BS_MULTILINE | WS_TABSTOP,7,133,60,22
+    CONTROL         "Непроверено",BN_UNCHECKED,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,122,133,60,22
+    CONTROL         "Правильно",BN_TRUE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,184,133,60,22
+    CONTROL         "Неправильно",BN_FALSE,"Button",BS_AUTORADIOBUTTON | BS_PUSHLIKE,247,133,60,22
+    LTEXT           "",ST_STAT,147,7,75,22
 END
 
 
@@ -86,7 +94,7 @@ BEGIN
         LEFTMARGIN, 7
         RIGHTMARGIN, 284
         TOPMARGIN, 7
-        BOTTOMMARGIN, 245
+        BOTTOMMARGIN, 240
     END
 END
 #endif    // APSTUDIO_INVOKED
