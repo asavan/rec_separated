@@ -4,7 +4,7 @@
 #include <fstream>
 int Reader::LoadFromFile(std::istream &is)
 {
-	load_string = Codec::LoadStringFromFile;
+	std::string (*load_string)(std::istream &is) = Codec::LoadStringFromFile;
 	set.LoadFromFile(is,load_string);
 	username = load_string( is );
 	Time.data = load_string(is);

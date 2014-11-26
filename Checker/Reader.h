@@ -32,15 +32,14 @@ public:
 	bool saveToFile(std::string filename);
 	
 	enum marks { unset, true_mark, false_mark};
-	std::string (*load_string)(std::istream &is);
 	int LoadFromFile(std::istream &is);
 	std::string get_answer( size_t n ) const;
 	int get_mark( size_t n ) const;
 	void set_mark(size_t n, int mark);
-	std::string get_username () const; 
+	std::string get_username() const; 
 	void set_check_date(const std::string & str) {check_date = str;}
 	std::string get_check_date() const;
-	size_t size() const ;
+	size_t size() const;
 	
 };
 
@@ -53,7 +52,7 @@ public:
 	exit_mark make_exit_mark() const;
 	//exit_mark mark;0
 
-	bool is_changed() {return changed;}
+	bool is_changed() const {return changed;}
 	void set_changed(bool ch) {changed = ch;}
 	std::string get_static() const;
 	std::string get_dynamic()const;
@@ -64,11 +63,12 @@ public:
 	std::string getStatsString() const;
 	std::string getHeaderString() const;
 	std::string getHeaderString2(int curr) const;
-	void (*save_string)(std::ostream &os, const std::string &str);
+	
 
 	explicit Stats(Reader * read);
 
 private:
+	void (*save_string)(std::ostream &os, const std::string &str);
 	std::string make_string_from_mark(exit_mark m) const;
 
 	std::string static_str;
