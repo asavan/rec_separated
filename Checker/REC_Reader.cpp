@@ -170,9 +170,6 @@ int CALLBACK DlgProc( HWND hw, UINT msg, WPARAM wp, LPARAM lp ) {
 		switch( LOWORD(wp) ) 
 		{
 
-		/*case IDM_ABOUT:
-			DialogBox( 0, MAKEINTRESOURCE(IDD_ABOUT), hw, DlgProcAbout );
-			break;*/
 		case BN_EXIT:
 			ExitDialog(hw);
 			break;

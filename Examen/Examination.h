@@ -1,13 +1,7 @@
 #pragma once
-// #include <time.h>
 #include "../Database/Database.h"
-#include "../Codec/my_time.h"
 
-
-#define HR_EXAM_OK 0
-#define HR_EXAM_DB_TOO_SMALL -1
-#define HR_EXAM_LOAD_FAILED -2
-
+class my_time;
 class Examination {
 	Database db;
 	struct Answer {
@@ -22,16 +16,16 @@ class Examination {
 	Examination(const Examination&);
 	void setTime(my_time *t);
 public:
-	Examination() {_time = 0;}
-	~Examination() {delete _time;}
+	Examination();
+	~Examination();
 	const Settings& get_set()const {return db.set;};
 	void startExamen();
-	int MakeAnswerOrder(void);
+	void MakeAnswerOrder(void);
 	size_t size() const;
 	std::string get_question( size_t n )const;
 	std::string get_answer( size_t n ) const;
 	void set_answer( size_t n, std::string s );
-	int LoadFromFile( std::istream &is );	
+	bool LoadFromFile( std::istream &is );	
 	void SaveToFile( std::ostream &os, const char * username ) const;	
 	std::string get_time_differense() const;
 };

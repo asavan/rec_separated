@@ -48,25 +48,6 @@ void CALLBACK TimerProc( HWND, UINT, UINT_PTR, DWORD )
 {	
 	Static_SetText( hwTime, ex.get_time_differense().c_str());
 }
-int CALLBACK DlgProcAbout( HWND hw, UINT msg, WPARAM wp, LPARAM lp ) 
-{
-	switch( msg ) 
-	{
-	case WM_INITDIALOG:
-		break;
-	case WM_CLOSE:
-		EndDialog( hw, -2 );
-	case WM_COMMAND:
-		switch( LOWORD(wp) ) 
-		{
-		case IDC_OK:
-			EndDialog( hw, 0 );
-			break;
-		}
-		break;
-	}
-	return 0;
-}
 
 int CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp ) 
 {
@@ -91,8 +72,6 @@ int CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 			GetDlgItemText( hw, ED_USERNAME, username, max_username );
 			if (username[0] == '\0') 
 			{
-				//DialogBox( 0, MAKEINTRESOURCE(IDD_ABOUT), hw, DlgProcAbout );
-			
 				MessageBox( hw, "Введите настоящее имя", NULL, MB_ICONEXCLAMATION | MB_TASKMODAL);// убрать
 				break;
 			}
@@ -127,9 +106,6 @@ int CALLBACK DlgProc( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 		switch( LOWORD(wp) ) 
 		{
 
-		case IDM_ABOUT:
-			DialogBox( 0, MAKEINTRESOURCE(IDD_ABOUT), hw, DlgProcAbout );
-			break;
 		case BN_EXIT:
 			SaveState();
 			setlocale( LC_ALL, ".ACP" ); //vs9
@@ -192,39 +168,33 @@ static std::strstream* getFileFromResourse() {
 }
 
 int APIENTRY WinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow ) 
-{
-	
-	HRESULT hr = 0;
+{	
+	std::istream* ifs = 0;
 	try{
 		// std::istream* ifs = getFileFromResourse();
-		std::ifstream* ifs = new std::ifstream("db.rec", std::ios_base::binary);
-	if( *ifs) 
-	 {
-		hr = ex.LoadFromFile( *ifs );
-		if( SUCCEEDED( hr ) ) 
+		ifs = new std::ifstream("db.rec", std::ios_base::binary);
+		if( *ifs) 
 		{
-			hr = ex.MakeAnswerOrder();
-			if( SUCCEEDED( hr ) ) 
+			bool res = ex.LoadFromFile( *ifs );
+			if(res) 
 			{
+				ex.MakeAnswerOrder();
 				if( 0==DialogBox( hInstance, MAKEINTRESOURCE(IDD_LOGIN), HWND_DESKTOP, DlgProcLogin ) ) 
 				{
 
 					DialogBox( hInstance, MAKEINTRESOURCE(IDD_MAIN), HWND_DESKTOP, DlgProc );	
 				}	
-			} 
-			else {
-				MessageBox( HWND_DESKTOP, "Failed to initiate examine.", NULL, MB_OK |MB_ICONSTOP);
+			} else {
+				MessageBox( HWND_DESKTOP, "База с вопросами повреждена", NULL, MB_OK |MB_ICONSTOP);
 			}
 		} else {
-			MessageBox( HWND_DESKTOP, "База с вопросами повреждена", NULL, MB_OK |MB_ICONSTOP);
+			MessageBox( HWND_DESKTOP, "Не найдена база с вопросами", NULL, MB_OK| MB_ICONSTOP );
 		}
-	} else {
-		MessageBox( HWND_DESKTOP, "Не найдена база с вопросами", NULL, MB_OK| MB_ICONSTOP );
-	}
-	delete ifs;
-	}catch (std::exception &ex)
-	{
+	    delete ifs;
+	} catch (const std::exception &ex)
+	{		
 		MessageBox( HWND_DESKTOP, ex.what(), NULL, MB_OK| MB_ICONSTOP );
+		delete ifs;
 	}
 	return 0;
 }

@@ -2,13 +2,17 @@
 #include "Examination.h"
 #include <stdlib.h>
 #include <algorithm>
+#include "../Codec/my_time.h"
 #include "../Codec/codec.h"
 
 typedef unsigned int uint;
 
-int Examination::MakeAnswerOrder(void)
-{
+Examination::Examination(): _time(0) {}
 
+Examination::~Examination() {delete _time;}
+
+void Examination::MakeAnswerOrder(void)
+{
 	srand( (uint)time(0) );
 	std::vector<Adress > an; 
 	for (size_t i = 0; i < db.size(); ++i)
@@ -22,12 +26,11 @@ int Examination::MakeAnswerOrder(void)
 	{
 		answers[i].adress = an[i];
 	}
-	return HR_EXAM_OK;
 }
 
-int Examination::LoadFromFile( std::istream & is ) 
+bool Examination::LoadFromFile( std::istream & is ) 
 {
-	return db.LoadFromBinFile( is )>0 ? HR_EXAM_OK: HR_EXAM_LOAD_FAILED;
+	return db.LoadFromBinFile( is )>0;
 }
 
 std::string Examination::get_question( size_t n ) const
