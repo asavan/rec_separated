@@ -74,7 +74,7 @@ int CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 	{
 	case WM_INITDIALOG:
 		//SetItemHeight();
-		Edit_SetText(GetDlgItem(hw,ST_ABOUT), REClama().c_str());
+		Edit_SetText(GetDlgItem(hw,ST_ABOUT), REC_name(ex).c_str());
 		SetWindowText(hw, REC_name(ex).c_str());
 		SetFocus( GetDlgItem( hw, ED_USERNAME ) );
 		break;
