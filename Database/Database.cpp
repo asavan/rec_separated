@@ -1,5 +1,7 @@
 #include "Database.h"
 #include "../Codec/codec.h"
+#include <stdexcept>
+#include <cstdlib>
 
 
 inline bool empty_symbol(char c)
@@ -19,7 +21,7 @@ size_t q_zone::LoadZoneText (std::istream &is, int pro)
 		{
 			if (str.empty()) 
 			{
-				if (c == '@') {return questions.size();} //в будущем проверку на str.size() можно убрать
+				if (c == '@') {return questions.size();} 
 				if (empty_symbol(c))continue;
 			}
 			if( c=='\n' ) 
@@ -35,7 +37,7 @@ size_t q_zone::LoadZoneText (std::istream &is, int pro)
 					str.push_back( '\r' );
 					str.push_back( '\n' );
 					bCR = false;
-					// if(empty_symbol (c) ) continue; // пробелы во второстепенных строках
+					// if(empty_symbol (c) ) continue;
 				}
 				str.push_back( c );
 			}
@@ -119,7 +121,7 @@ size_t Database::LoadFromBinFile( std::istream & is)
 {
 	char this_sign [ sizeof(sign) ];
 	is.read( this_sign, sizeof(sign));
-	for( int i=0; i<sizeof(sign); i++ ) 
+    for(unsigned int i=0; i<sizeof(sign); i++ )
 	{
 		if( this_sign[i]!=sign[i] ) 
 		{
@@ -132,7 +134,7 @@ size_t Database::LoadFromBinFile( std::istream & is)
 	while (!is.eof()&&is)
 	{
 		q_zone temp_zone;
-		if(temp_zone.LoadZoneBin(is) < 1) break; //избавиться от проверки
+		if(temp_zone.LoadZoneBin(is) < 1) break;
 		zones.push_back(temp_zone);
 	}
 	return size();

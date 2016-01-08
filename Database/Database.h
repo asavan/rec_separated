@@ -8,8 +8,8 @@
 
 class Adress
 {
-	size_t j; //номер зоны
-	size_t i; // номер вопроса
+    size_t i;
+	size_t j; 
 public:	
 	Adress(size_t _j, size_t _i) : i(_i), j(_j) {}
 	size_t getZoneNumber() const {return j;}
@@ -50,4 +50,4 @@ public:
 	q_zone & operator[](int n)  { return zones[n];}
 	q_zone  operator[]  (int n) const { return zones[n];}
 };
-void ErrorInZone(size_t n);
+
