@@ -7,7 +7,7 @@ class Stats;
 class Reader
 {
 public:
-	// friend Stats; // fix this
+	friend Stats; // fix this
 
 	bool is_first() const;
 	void set_first(bool i) { _is_first = i; }
@@ -23,6 +23,10 @@ public:
 	std::string get_check_date() const;
 	size_t size() const;
 
+	bool isAllCheked() const { return (stats[0] == 0); }
+
+
+private:
 	struct answer
 	{ 
 		std::string str;
@@ -57,11 +61,11 @@ public:
 	bool is_changed() const {return changed;}
 	void set_changed(bool ch) {changed = ch;}
 	std::string get_static() const;
-	std::string get_dynamic()const;
+	std::string get_dynamic() const;
 	void make_static();
 	int MakeReport();
 	void saveToFile(std::string filename);
-	bool isAllCheked() const {return (r->stats[0] == 0); }
+	bool isAllCheked() const {return r->isAllCheked(); }
 	std::string getStatsString() const;
 	std::string getHeaderString() const;
 	std::string getHeaderString2(int curr) const;
@@ -74,4 +78,3 @@ private:
 	bool changed;
 	Reader * r;
 };
-
