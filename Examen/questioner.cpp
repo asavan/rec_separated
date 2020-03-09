@@ -31,7 +31,7 @@ void LoadState()
 	Edit_SetText( hwQuestion, ex.get_question(curr).c_str() );
 	Edit_SetText( hwAnswer, ex.get_answer(curr).c_str() );
 	char tmp[128];
-	sprintf_s( tmp, "Вопрос номер %d из %d.", curr+1 , ex.size());
+	sprintf_s( tmp, "Вопрос номер %zu из %zu.", curr+1 , ex.size());
 	Edit_SetText( hwNumber, tmp );
 }
 
@@ -49,7 +49,7 @@ void CALLBACK TimerProc( HWND, UINT, UINT_PTR, DWORD )
 	Static_SetText( hwTime, ex.get_time_differense().c_str());
 }
 
-int CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp ) 
+INT_PTR CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 {
 	switch( msg ) 
 	{
@@ -85,7 +85,7 @@ int CALLBACK DlgProcLogin( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 
 
 
-int CALLBACK DlgProc( HWND hw, UINT msg, WPARAM wp, LPARAM lp ) 
+INT_PTR CALLBACK DlgProc( HWND hw, UINT msg, WPARAM wp, LPARAM lp )
 {
 	std::ofstream ofs;	
 	switch( msg ) 

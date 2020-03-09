@@ -1,10 +1,28 @@
 #pragma once
-#include<vector>
 #include "../Settings/Settings.h"
+#include<vector>
+#include <fstream>
 
 class Stats;
 class Reader
 {
+public:
+	// friend Stats; // fix this
+
+	bool is_first() const;
+	void set_first(bool i) { _is_first = i; }
+	bool saveToFile(const std::string& filename);
+
+	enum marks { unset, true_mark, false_mark };
+	int LoadFromFile(std::istream& is);
+	std::string get_answer(size_t n) const;
+	int get_mark(size_t n) const;
+	void set_mark(size_t n, int mark);
+	std::string get_username() const;
+	void set_check_date(const std::string& str) { check_date = str; }
+	std::string get_check_date() const;
+	size_t size() const;
+
 	struct answer
 	{ 
 		std::string str;
@@ -20,35 +38,18 @@ class Reader
 		std::string begin_time;
 		std::string real_time;
 	};
-	bool _is_first;
-	long marks_begin;	
+	bool _is_first = false;
+	std::ios::pos_type marks_begin;
 	Settings set;
 	_Time Time;
 	int stats[4]; //unset , true, false, all;
-public:
-	friend Stats; // fix this
-	
-	bool is_first() const;
-	void set_first(bool i) {_is_first = i;}
-	bool saveToFile(std::string filename);
-	
-	enum marks { unset, true_mark, false_mark};
-	int LoadFromFile(std::istream &is);
-	std::string get_answer( size_t n ) const;
-	int get_mark( size_t n ) const;
-	void set_mark(size_t n, int mark);
-	std::string get_username() const; 
-	void set_check_date(const std::string & str) {check_date = str;}
-	std::string get_check_date() const;
-	size_t size() const;
-	
 };
 
 class Stats
 {		
-	
 public:
-	
+	explicit Stats(Reader* read);
+
 	enum exit_mark{ one , two, three, four, five};
 	exit_mark make_exit_mark() const;
 	//exit_mark mark;0
@@ -65,9 +66,6 @@ public:
 	std::string getHeaderString() const;
 	std::string getHeaderString2(int curr) const;
 	
-
-	explicit Stats(Reader * read);
-
 private:
 	void (*save_string)(std::ostream &os, const std::string &str);
 	std::string make_string_from_mark(exit_mark m) const;
