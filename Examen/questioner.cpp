@@ -40,10 +40,9 @@ namespace {
     void SaveState(Examination& ex)
     {
         int len = Edit_GetTextLength(hwAnswer);
-        char* str = new char[len + 1];
-        Edit_GetText(hwAnswer, str, len + 1);
-        ex.set_answer(curr, str);
-        delete[] str;
+        std::vector<char> buf(len + 1);
+        Edit_GetText(hwAnswer, &buf[0], len + 1);
+        ex.set_answer(curr, &buf[0]);
     }
 
     void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
@@ -142,7 +141,7 @@ namespace {
         return 0;
     }
 
-    static std::strstream getFileFromResourse() {
+    std::strstream getFileFromResourse() {
         HRSRC hRes = FindResource(NULL, "DataBase", RT_RCDATA);
         if (!hRes)
         {
@@ -167,8 +166,10 @@ namespace {
             //Обработка ошибки
             throw std::runtime_error("No database");
         }
-        //std::ifstream ifs("db.rec",std::ios_base::binary);
-        std::strstream ifs = std::strstream(lpbArray, dwFileSize, std::ios_base::binary | std::ios_base::in);
+
+        std::strstream ifs = std::strstream();
+        ifs.write(lpbArray, dwFileSize);
+        FreeResource(hGlob);
         return ifs;
     }
 }
@@ -176,8 +177,8 @@ namespace {
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
 {
     try {
-        // auto ifs = getFileFromResourse();
-        auto ifs = std::ifstream("db.rec", std::ios_base::binary);
+        auto ifs = getFileFromResourse();
+        // auto ifs = std::ifstream("db.rec", std::ios_base::binary);
         if (ifs)
         {
             bool res = ex.LoadFromFile(ifs);
@@ -201,7 +202,6 @@ int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdL
     catch (const std::exception & ex)
     {
         MessageBox(HWND_DESKTOP, ex.what(), NULL, MB_OK | MB_ICONSTOP);
-        // delete ifs;
     }
     return 0;
 }

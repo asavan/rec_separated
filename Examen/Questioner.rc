@@ -156,7 +156,7 @@ END
 // Bitmap
 //
 
-IDB_BITMAP1             BITMAP                  "C:\\G090102\\Projects\\REC_Sava\\icons\\Soc.bmp"
+// IDB_BITMAP1             BITMAP                  "C:\\G090102\\Projects\\REC_Sava\\icons\\Soc.bmp"
 #endif    // Russian resources
 /////////////////////////////////////////////////////////////////////////////
 
