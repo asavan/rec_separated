@@ -8,7 +8,7 @@
 
 namespace {
     Examination ex;
-    size_t curr = 0;
+    int curr = 0;
     HWND hwQuestion, hwAnswer, hwNumber, hwTime;
     const int max_username = 1024;
     char username[max_username];
@@ -32,14 +32,14 @@ namespace {
         SetWindowText(hwQuestion, ex.get_question(curr).c_str());
         SetWindowText(hwAnswer, ex.get_answer(curr).c_str());
         char tmp[128];
-        sprintf_s(tmp, "Вопрос номер %zu из %zu.", curr + 1, ex.size());
+        sprintf_s(tmp, "Вопрос номер %d из %d.", curr + 1, ex.size());
         SetWindowText(hwNumber, tmp);
     }
 
     void SaveState(Examination& ex)
     {
         int len = GetWindowTextLength(hwAnswer);
-        std::vector<char> buf(len + 1);
+        std::vector<char> buf((size_t)len + 1);
         GetWindowText(hwAnswer, &buf[0], len + 1);
         ex.set_answer(curr, &buf[0]);
     }

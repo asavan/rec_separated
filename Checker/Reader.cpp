@@ -1,6 +1,7 @@
 #include "Reader.h"
 #include "../Codec/codec.h"
 #include "../Codec/my_time.h"
+#include "../Utils/utils.h"
 #include <fstream>
 int Reader::LoadFromFile(std::istream& is)
 {
@@ -76,9 +77,9 @@ std::string Reader::get_check_date() const
     return check_date;
 }
 
-size_t Reader::size() const
+int Reader::size() const
 {
-    return answers.size();
+    return size_as_int(answers);
 }
 
 bool Reader::is_first() const
@@ -254,7 +255,7 @@ bool Reader::saveToFile(const std::string& fname)
     return true;
 }
 
-void Stats::saveToFile(std::string fname)
+void Stats::saveToFile(const std::string& fname)
 {
     r->saveToFile(fname);
 

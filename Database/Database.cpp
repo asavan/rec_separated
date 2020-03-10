@@ -1,5 +1,6 @@
 #include "Database.h"
 #include "../Codec/codec.h"
+#include "../Utils/utils.h"
 #include <stdexcept>
 #include <cstdlib>
 
@@ -7,6 +8,13 @@ namespace {
     inline bool empty_symbol(char c)
     {
         return (c == '\n' || c == ' ' || c == '\t');
+    }
+    void ErrorInZone(int n)
+    {
+        std::string str("zone ");
+        str += IntToString(n + 1);
+        str += " is empty";
+        throw std::runtime_error(str);
     }
 }
 
@@ -53,13 +61,6 @@ size_t q_zone::LoadZoneText(std::istream& is, int pro)
 
 }
 
-static void ErrorInZone(size_t n)
-{
-    std::string str("zone ");
-    str += IntToString(n + 1);
-    str += " is empty";
-    throw std::runtime_error(str);
-}
 
 q_zone::q_zone(std::istream& is, int pro)
 {
@@ -76,7 +77,7 @@ size_t Database::LoadFromTextFile(std::istream& is)
         q_zone z_temp(is, c);
         if (z_temp.size() == 0)
         {
-            ErrorInZone(zones.size());
+            ErrorInZone(size());
         }
         zones.push_back(z_temp);
         is >> c;
@@ -145,7 +146,7 @@ size_t Database::LoadFromBinFile(std::istream& is)
 
 void q_zone::SaveToBinFile(std::ostream& os) const
 {
-    int size = (int)questions.size();
+    int size = size_as_int(questions);
     os.write((char*)&z_property, sizeof(int));
 
     os.write((char*)&size, sizeof(int));
@@ -182,16 +183,11 @@ void Database::SaveToBinFile(std::ostream& os) const
     }
 }
 
-size_t Database::size() const
+int Database::size() const
 {
-    return zones.size();
+    return size_as_int(zones);
 }
-/*
-std::string Database::get( Adress n ) const
-{
-    return (*this)[n.j][n.i];
-}
-*/
+
 size_t q_zone::difficult() const
 {
     return z_property;
@@ -206,9 +202,9 @@ void q_zone::push_back(std::string q)
     questions.push_back(q);
 }
 
-size_t q_zone::size() const
+int q_zone::size() const
 {
-    return questions.size();
+    return size_as_int(questions);
 }
 
 std::string q_zone::operator[](int n) const

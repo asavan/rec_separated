@@ -1,11 +1,10 @@
-#define _CRT_SECURE_NO_DEPRECATE
+// #define _CRT_SECURE_NO_DEPRECATE
 #include "Examination.h"
 #include <cstdlib>
 #include <algorithm>
 #include "../Codec/my_time.h"
 #include "../Codec/codec.h"
-
-typedef unsigned int uint;
+#include "../Utils/utils.h"
 
 Examination::Examination() : _time(nullptr) {}
 
@@ -13,16 +12,16 @@ Examination::~Examination() = default;
 
 void Examination::MakeAnswerOrder()
 {
-    std::srand(std::time(nullptr));
+    std::srand(unsigned(std::time(nullptr)));
     std::vector<Adress> an;
-    for (size_t i = 0; i < db.size(); ++i)
+    for (int i = 0; i < db.size(); ++i)
     {
         int rnd = std::rand() % db[i].size();
         an.push_back(Adress(i, rnd));
     }
     std::random_shuffle(an.begin(), an.end());
     answers.resize(an.size());
-    for (size_t i = 0; i < answers.size(); ++i)
+    for (int i = 0; i < size(); ++i)
     {
         answers[i].adress = an[i];
     }
@@ -33,7 +32,7 @@ bool Examination::LoadFromFile(std::istream & is)
     return db.LoadFromBinFile(is) > 0;
 }
 
-std::string Examination::get_question(size_t n) const
+std::string Examination::get_question(int n) const
 {
     std::string str;
 
@@ -46,19 +45,19 @@ std::string Examination::get_question(size_t n) const
     return str;
 }
 
-std::string Examination::get_answer(size_t n) const
+std::string Examination::get_answer(int n) const
 {
     return answers[n].str;
 }
 
-void Examination::set_answer(size_t n, const std::string & s)
+void Examination::set_answer(int n, const std::string & s)
 {
     answers[n].str = s;
 }
 
-size_t Examination::size() const
+int Examination::size() const
 {
-    return answers.size();
+    return size_as_int(answers);
 }
 
 void Examination::SaveToFile(std::ostream & os, const char* username) const
@@ -71,7 +70,7 @@ void Examination::SaveToFile(std::ostream & os, const char* username) const
     save_string(os, _time->get_time());
     save_string(os, _time->get_time_differense());
     save_string(os, IntToString(size()));
-    for (size_t i = 0; i < size(); i++)
+    for (int i = 0; i < size(); i++)
     {
         std::string str;
         str += "-------- Вопрос " + IntToString(i + 1) + "( " + IntToString(answers[i].adress.getZoneNumber() + 1) + "_" + IntToString(answers[i].adress.getQuestionNumber() + 1) + ")" + "--------";

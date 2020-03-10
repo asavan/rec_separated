@@ -21,7 +21,7 @@ public:
 	std::string get_username() const;
 	void set_check_date(const std::string& str) { check_date = str; }
 	std::string get_check_date() const;
-	size_t size() const;
+	int size() const;
 
 	bool isAllCheked() const { return (stats[0] == 0); }
 
@@ -64,7 +64,7 @@ public:
 	std::string get_dynamic() const;
 	void make_static();
 	int MakeReport();
-	void saveToFile(std::string filename);
+	void saveToFile(const std::string& filename);
 	bool isAllCheked() const {return r->isAllCheked(); }
 	std::string getStatsString() const;
 	std::string getHeaderString() const;

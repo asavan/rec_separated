@@ -8,12 +8,12 @@
 
 class Adress
 {
-    size_t i;
-    size_t j;
+    int i;
+    int j;
 public:
-    Adress(size_t _j, size_t _i) : i(_i), j(_j) {}
-    size_t getZoneNumber() const { return j; }
-    size_t getQuestionNumber() const { return i; }
+    Adress(int _j, int _i) : i(_i), j(_j) {}
+    int getZoneNumber() const { return j; }
+    int getQuestionNumber() const { return i; }
 };
 
 class q_zone
@@ -33,7 +33,7 @@ public:
     // for text input
     q_zone(std::istream& is, int pro);
 
-    size_t size() const;
+    int size() const;
     std::string operator[](int n) const;
     void SaveToBinFile(std::ostream& is) const;
     //friend std::ostream& operator <<(std::ostream& os, const q_zone & z);
@@ -46,7 +46,7 @@ public:
     size_t LoadFromBinFile(std::istream& is);
     size_t LoadFromTextFile(std::istream& is);
     void SaveToBinFile(std::ostream& os) const;
-    size_t size() const;// {return zones.size();}
+    int size() const;// {return zones.size();}
     q_zone& operator[](int n) { return zones[n]; }
     q_zone  operator[](int n) const { return zones[n]; }
 };

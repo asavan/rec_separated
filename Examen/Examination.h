@@ -10,10 +10,10 @@ public:
     const Settings& get_set() const { return db.set; };
     void startExamen();
     void MakeAnswerOrder();
-    size_t size() const;
-    std::string get_question(size_t n) const;
-    std::string get_answer(size_t n) const;
-    void set_answer(size_t n, const std::string& s);
+    int size() const;
+    std::string get_question(int n) const;
+    std::string get_answer(int n) const;
+    void set_answer(int n, const std::string& s);
     bool LoadFromFile(std::istream& is);
     void SaveToFile(std::ostream& os, const char* username) const;
     std::string get_time_differense() const;

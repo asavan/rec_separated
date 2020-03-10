@@ -1,4 +1,5 @@
 #include "codec.h"
+#include "../Utils/utils.h"
 
 #include <vector>
 
@@ -20,12 +21,12 @@ namespace Codec {
 
     std::string Decode(const std::vector<char>& str)
     {
-        size_t l = str.size();
+        int l = size_as_int(str);
         std::string res;
         res.resize(l);
         if (l > 1)
         {
-            for (size_t i = l - 1; i > 0; i--)
+            for (int i = l - 1; i > 0; i--)
             {
                 res[i] = str[i] - str[i - 1];
             }
@@ -40,7 +41,7 @@ namespace Codec {
     void SaveStringToFile(std::ostream& os, const std::string& str_in)
     {
         std::vector<char> str_enc = Encode(str_in);
-        int l = str_enc.size();
+        int l = size_as_int(str_enc);
         os.write((char*)&l, sizeof(int));
         for (char t : str_enc) {
             os << t;
@@ -74,8 +75,8 @@ std::string IntToString(int in, int field_size)
     char buf[8];
     sprintf_s(buf, "%d", in);
     std::string buf1 = buf;
-    if (field_size > buf1.size()) {
-        std::string temp_spaces(field_size - buf1.size(), ' ');
+    if (field_size > size_as_int(buf1)) {
+        std::string temp_spaces(field_size - size_as_int(buf1), ' ');
         return temp_spaces + buf1;
     }
     return buf1;
