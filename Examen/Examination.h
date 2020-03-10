@@ -1,5 +1,6 @@
 #pragma once
 #include "../Database/Database.h"
+#include <memory>
 
 class my_time;
 class Examination {
@@ -27,9 +28,8 @@ private:
     };
     std::string name;
     std::vector<Answer> answers;
-    my_time* _time;
+    std::unique_ptr<my_time> _time;
     Examination(const Examination&) = delete;
     Examination& operator=(const Examination&) = delete;
-    void setTime(my_time* t);
 };
 // inline std::string get_time (time_t time);

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <memory>
 class my_time_realization;
 class my_time
 {
@@ -10,8 +11,9 @@ public:
     std::string get_time() const;
     std::string get_date() const;
 private:
-    my_time_realization* realization;
+    std::unique_ptr<my_time_realization> realization;
     //;
     my_time(const my_time&) = delete;
     my_time& operator=(const my_time&) = delete;
+    my_time(my_time&&) = delete;
 };

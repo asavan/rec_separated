@@ -27,15 +27,11 @@ my_time_realization::my_time_realization()
 
 }
 
-my_time::my_time()
+my_time::my_time() : realization(new my_time_realization())
 {
-    realization = new my_time_realization();
 }
 
-my_time::~my_time()
-{
-    delete realization;
-}
+my_time::~my_time() = default;
 
 std::string my_time::get_time_differense() const
 {

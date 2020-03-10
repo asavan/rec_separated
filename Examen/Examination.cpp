@@ -7,9 +7,9 @@
 
 typedef unsigned int uint;
 
-Examination::Examination() : _time(0) {}
+Examination::Examination() : _time(nullptr) {}
 
-Examination::~Examination() { delete _time; }
+Examination::~Examination() = default;
 
 void Examination::MakeAnswerOrder()
 {
@@ -86,16 +86,9 @@ void Examination::SaveToFile(std::ostream& os, const char* username) const
     }
 }
 
-
-void Examination::setTime(my_time* t)
-{
-    delete _time;
-    _time = t;
-}
-
 void Examination::startExamen()
 {
-    setTime(new my_time);
+    _time = std::make_unique<my_time>();
 }
 
 std::string Examination::get_time_differense() const
