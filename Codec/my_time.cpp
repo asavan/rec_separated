@@ -17,11 +17,13 @@ public:
 my_time_realization::my_time_realization()
 {
     ltime = std::time(nullptr);
-    char buffer[64];
-    auto foo = *std::localtime(&ltime);
-    std::strftime(buffer, 64, "%H:%M:%S", &foo);
+    const int buf_size = 32;
+    char buffer[buf_size];
+    struct tm tM;
+    localtime_s(&tM , &ltime);
+    std::strftime(buffer, buf_size, "%H:%M:%S", &tM);
     _time = std::string(buffer);
-    std::strftime(buffer, 64, "%d.%m.%Y", &foo);
+    std::strftime(buffer, buf_size, "%d.%m.%Y", &tM);
     _date = std::string(buffer);
 }
 
@@ -34,8 +36,9 @@ my_time::~my_time() = default;
 std::string my_time::get_time_differense() const
 {
     time_t timeElapsed = std::time(nullptr) - realization->get_time_start();
-    char c_str[128];
-    sprintf_s(c_str, "%d:%.2d:%.2d", (int)(timeElapsed / 3600), (int)((timeElapsed / 60) % 60), (int)(timeElapsed % 60));
+    const int buf_size = 128;
+    char c_str[buf_size];
+    snprintf(c_str, buf_size, "%d:%.2d:%.2d", (int)(timeElapsed / 3600), (int)((timeElapsed / 60) % 60), (int)(timeElapsed % 60));
     std::string temp = c_str;
     return temp;
 }
