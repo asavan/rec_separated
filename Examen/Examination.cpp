@@ -1,6 +1,6 @@
 #define _CRT_SECURE_NO_DEPRECATE
 #include "Examination.h"
-#include <stdlib.h>
+#include <cstdlib>
 #include <algorithm>
 #include "../Codec/my_time.h"
 #include "../Codec/codec.h"
@@ -13,14 +13,14 @@ Examination::~Examination() = default;
 
 void Examination::MakeAnswerOrder()
 {
-    srand((uint)time(0));
-    std::vector<Adress > an;
+    std::srand(std::time(nullptr));
+    std::vector<Adress> an;
     for (size_t i = 0; i < db.size(); ++i)
     {
-        int rnd = rand() % db[i].size();
+        int rnd = std::rand() % db[i].size();
         an.push_back(Adress(i, rnd));
     }
-    random_shuffle(an.begin(), an.end());
+    std::random_shuffle(an.begin(), an.end());
     answers.resize(an.size());
     for (size_t i = 0; i < answers.size(); ++i)
     {
@@ -28,7 +28,7 @@ void Examination::MakeAnswerOrder()
     }
 }
 
-bool Examination::LoadFromFile(std::istream& is)
+bool Examination::LoadFromFile(std::istream & is)
 {
     return db.LoadFromBinFile(is) > 0;
 }
@@ -51,7 +51,7 @@ std::string Examination::get_answer(size_t n) const
     return answers[n].str;
 }
 
-void Examination::set_answer(size_t n, const std::string& s)
+void Examination::set_answer(size_t n, const std::string & s)
 {
     answers[n].str = s;
 }
@@ -61,7 +61,7 @@ size_t Examination::size() const
     return answers.size();
 }
 
-void Examination::SaveToFile(std::ostream& os, const char* username) const
+void Examination::SaveToFile(std::ostream & os, const char* username) const
 {
     void (*save_string)(std::ostream & os, const std::string & s);
     save_string = Codec::SaveStringToFile;

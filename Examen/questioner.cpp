@@ -3,7 +3,6 @@
 #include "resource.h"
 
 #include <Windows.h>
-#include <WindowsX.h>
 #include <strstream>
 #include <fstream>
 
@@ -30,24 +29,24 @@ namespace {
 
     void LoadState(const Examination& ex)
     {
-        Edit_SetText(hwQuestion, ex.get_question(curr).c_str());
-        Edit_SetText(hwAnswer, ex.get_answer(curr).c_str());
+        SetWindowText(hwQuestion, ex.get_question(curr).c_str());
+        SetWindowText(hwAnswer, ex.get_answer(curr).c_str());
         char tmp[128];
         sprintf_s(tmp, "Вопрос номер %zu из %zu.", curr + 1, ex.size());
-        Edit_SetText(hwNumber, tmp);
+        SetWindowText(hwNumber, tmp);
     }
 
     void SaveState(Examination& ex)
     {
-        int len = Edit_GetTextLength(hwAnswer);
+        int len = GetWindowTextLength(hwAnswer);
         std::vector<char> buf(len + 1);
-        Edit_GetText(hwAnswer, &buf[0], len + 1);
+        GetWindowText(hwAnswer, &buf[0], len + 1);
         ex.set_answer(curr, &buf[0]);
     }
 
     void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
     {
-        Static_SetText(hwTime, ex.get_time_differense().c_str());
+        SetWindowText(hwTime, ex.get_time_differense().c_str());
     }
 
     INT_PTR CALLBACK DlgProcLogin(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
@@ -56,7 +55,7 @@ namespace {
         {
         case WM_INITDIALOG:
             //SetItemHeight();
-            Edit_SetText(GetDlgItem(hw, ST_ABOUT), REC_name(ex).c_str());
+            SetWindowText(GetDlgItem(hw, ST_ABOUT), REC_name(ex).c_str());
             SetWindowText(hw, REC_name(ex).c_str());
             SetFocus(GetDlgItem(hw, ED_USERNAME));
             break;
