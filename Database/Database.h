@@ -3,8 +3,7 @@
 
 #include <vector>
 #include <string>
-#include <iostream>
-
+#include <ostream>
 
 class Adress
 {

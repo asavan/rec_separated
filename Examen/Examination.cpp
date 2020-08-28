@@ -1,10 +1,11 @@
-// #define _CRT_SECURE_NO_DEPRECATE
 #include "Examination.h"
-#include <cstdlib>
-#include <algorithm>
+
 #include "../Codec/my_time.h"
 #include "../Codec/codec.h"
 #include "../Utils/utils.h"
+
+#include <ctime>
+#include <algorithm>
 
 Examination::Examination() : _time(nullptr) {}
 

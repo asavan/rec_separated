@@ -72,12 +72,9 @@ void SaveStringToTextFile(std::ostream& os, const std::string& str)
 
 std::string IntToString(int in, int field_size)
 {
-    char buf[8];
-    sprintf_s(buf, "%d", in);
-    std::string buf1 = buf;
-    if (field_size > size_as_int(buf1)) {
-        std::string temp_spaces(field_size - size_as_int(buf1), ' ');
-        return temp_spaces + buf1;
+    std::string s = std::to_string(in);
+    if (s.size() < field_size) {
+        s.insert(s.begin(), field_size - s.size(), ' ');
     }
-    return buf1;
+    return s;
 }

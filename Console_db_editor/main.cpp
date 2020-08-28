@@ -1,5 +1,7 @@
 #include "../Database/Database.h"
 #include <fstream>
+#include <iostream>
+
 int main(int argc, char* argv[])
 {
     try {
