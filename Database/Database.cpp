@@ -71,25 +71,26 @@ size_t Database::LoadFromTextFile(std::istream& is)
 {
     is.unsetf(std::ios_base::skipws);
     zones.clear();
-    char c = 0;
+    int count = 0;
     while (is && !is.eof())
     {
-        q_zone z_temp(is, c);
+        q_zone z_temp(is, count);
         if (z_temp.size() == 0)
         {
             ErrorInZone(size());
         }
         zones.push_back(z_temp);
+        char c;
         is >> c;
         if (is)
         {
             switch (c)
             {
             case '\n':
-                c = 0;
+                count = 0;
                 break;
             default:
-                c = atoi(&c);
+                count = atoi(&c);
                 is.get();
                 break;
             }

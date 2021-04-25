@@ -46,7 +46,7 @@ private:
 	std::ios::pos_type marks_begin;
 	Settings set;
 	_Time Time;
-	int stats[4]; //unset , true, false, all;
+	int stats[4] = { 0 }; //unset , true, false, all;
 };
 
 class Stats

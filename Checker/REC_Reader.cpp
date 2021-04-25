@@ -2,7 +2,6 @@
 
 #include "Reader.h"
 #include <Windows.h>
-// #include <WindowsX.h>
 #include <fstream>
 
 namespace {
@@ -37,26 +36,26 @@ namespace {
         SetWindowText(hwTrue, "Проверено");
     }
 
-    void LoadStatistic(HWND hwAnswer, HWND hwTrue, HWND hwUnchecked, HWND hwNext)
+    void LoadStatistic(HWND hwAnswerWindow, HWND hwTrueWindow, HWND hwUncheckedWindow, HWND hwNextWindow)
     {
         curr = reader.size();
         SetWindowText(hwInfo, "Статистика. ");
         bool all_check = stats.isAllCheked();
         std::string str = stats.getStatsString();
-        SetWindowText(hwAnswer, str.c_str());
+        SetWindowText(hwAnswerWindow, str.c_str());
 
-        SendMessage(hwTrue, (UINT)BM_SETCHECK, all_check, 0);
-        SendMessage(hwUnchecked, (UINT)BM_SETCHECK, !all_check, 0);
+        SendMessage(hwTrueWindow, (UINT)BM_SETCHECK, all_check, 0);
+        SendMessage(hwUncheckedWindow, (UINT)BM_SETCHECK, !all_check, 0);
 
         DisableWindows();
-        SetFocus(hwNext);
+        SetFocus(hwNextWindow);
     }
 
-    void LoadStatisticState(HWND hwStatStr)
+    void LoadStatisticState(HWND hwStatWindow)
     {
         stats.set_changed(true);
         std::string str = stats.getHeaderString();
-        SetWindowText(hwStatStr, str.c_str());
+        SetWindowText(hwStatWindow, str.c_str());
     }
 
     void SaveDialog(/*HWND hw*/)
@@ -123,18 +122,18 @@ namespace {
         LoadState();
     }
 
-    void Set_Mark(int mark, HWND hwStatStr, HWND hwAuto)
+    void Set_Mark(int mark, HWND hwStatWindow, HWND hwAutoWindow)
     {
         reader.set_mark(curr, mark);
-        LoadStatisticState(hwStatStr);
+        LoadStatisticState(hwStatWindow);
         if (mark) {
-            if (SendMessage(hwAuto, (UINT)BM_GETCHECK, 0, 0)) {
+            if (SendMessage(hwAutoWindow, (UINT)BM_GETCHECK, 0, 0)) {
                 Go(1);
             }
         }
     }
 
-    INT_PTR CALLBACK DlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp) {
+    INT_PTR CALLBACK DlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM /*lp*/) {
         switch (msg) {
         case WM_CLOSE:
             ExitDialog(hw);
@@ -222,25 +221,25 @@ namespace {
     BOOL GetFName(HINSTANCE hinst) {
         OPENFILENAME ofn;
         const int max_len = 2 * 1024;
-        char fname[max_len + 1];
-        fname[0] = 0;
+        char fname_local[max_len + 1];
+        fname_local[0] = 0;
         setlocale(LC_ALL, ".ACP"); //vc9 bag
         ZeroMemory(&ofn, sizeof(ofn));
         ofn.hInstance = hinst;
         ofn.Flags = OFN_EXPLORER | OFN_FILEMUSTEXIST | OFN_ALLOWMULTISELECT;
-        ofn.lpstrFile = fname;
+        ofn.lpstrFile = fname_local;
         ofn.nMaxFile = max_len;
         std::string filter = MakeFilter();
         ofn.lpstrFilter = filter.c_str();
         ofn.lStructSize = sizeof(ofn);
         ofn.lpstrInitialDir = NULL;
         BOOL res = GetOpenFileName(&ofn);
-        ::fname = fname;
+        ::fname = fname_local;
         return res;
     }
 }
 
-int APIENTRY WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE hPrevInstance, __in LPSTR lpCmdLine, __in int nShowCmd)
+int APIENTRY WinMain(__in HINSTANCE hInstance, __in_opt HINSTANCE /*hPrevInstance*/, __in LPSTR /*lpCmdLine*/, __in int /*nShowCmd*/)
 {
     if (GetFName(hInstance))
         DialogBox(hInstance, MAKEINTRESOURCE(IDD_READER), HWND_DESKTOP, DlgProc);

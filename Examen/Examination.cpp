@@ -6,6 +6,7 @@
 
 #include <ctime>
 #include <algorithm>
+#include <random>
 
 Examination::Examination() : _time(nullptr) {}
 
@@ -20,7 +21,9 @@ void Examination::MakeAnswerOrder()
         int rnd = std::rand() % db[i].size();
         an.push_back(Adress(i, rnd));
     }
-    std::random_shuffle(an.begin(), an.end());
+    std::random_device rd;
+    std::mt19937 g(rd());
+    std::shuffle(an.begin(), an.end(), g);
     answers.resize(an.size());
     for (int i = 0; i < size(); ++i)
     {

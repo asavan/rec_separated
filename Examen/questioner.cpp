@@ -3,11 +3,11 @@
 #include "resource.h"
 
 #include <Windows.h>
-#include <strstream>
+#include <sstream>
 #include <fstream>
 
 namespace {
-    Examination ex;
+    Examination exam;
     int curr = 0;
     HWND hwQuestion, hwAnswer, hwNumber, hwTime;
     const int max_username = 1024;
@@ -46,17 +46,17 @@ namespace {
 
     void CALLBACK TimerProc(HWND, UINT, UINT_PTR, DWORD)
     {
-        SetWindowText(hwTime, ex.get_time_differense().c_str());
+        SetWindowText(hwTime, exam.get_time_differense().c_str());
     }
 
-    INT_PTR CALLBACK DlgProcLogin(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
+    INT_PTR CALLBACK DlgProcLogin(HWND hw, UINT msg, WPARAM wp, LPARAM /*lp*/ )
     {
         switch (msg)
         {
         case WM_INITDIALOG:
             //SetItemHeight();
-            SetWindowText(GetDlgItem(hw, ST_ABOUT), REC_name(ex).c_str());
-            SetWindowText(hw, REC_name(ex).c_str());
+            SetWindowText(GetDlgItem(hw, ST_ABOUT), REC_name(exam).c_str());
+            SetWindowText(hw, REC_name(exam).c_str());
             SetFocus(GetDlgItem(hw, ED_USERNAME));
             break;
         case WM_CLOSE:
@@ -82,7 +82,7 @@ namespace {
         return 0;
     }
 
-    INT_PTR CALLBACK DlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM lp)
+    INT_PTR CALLBACK DlgProc(HWND hw, UINT msg, WPARAM wp, LPARAM /*lp*/ )
     {
         std::ofstream ofs;
         switch (msg)
@@ -92,11 +92,11 @@ namespace {
             hwAnswer = GetDlgItem(hw, ED_ANSWER);
             hwNumber = GetDlgItem(hw, ST_NUMBER);
             hwTime = GetDlgItem(hw, ST_TIME);
-            LoadState(ex);
-            SetWindowText(hw, REC_name(ex).c_str());
+            LoadState(exam);
+            SetWindowText(hw, REC_name(exam).c_str());
             SetFocus(hwAnswer);
             SetTimer(hw, 0, 50, TimerProc);
-            ex.startExamen();
+            exam.startExamen();
             TimerProc(0, 0, 0, 0);
             break;
         case WM_COMMAND:
@@ -104,35 +104,35 @@ namespace {
             {
 
             case BN_EXIT:
-                SaveState(ex);
+                SaveState(exam);
                 setlocale(LC_ALL, ".ACP"); //vs9
 
-                ofs.open((std::string(username) + "." + ex.get_set().get_ext()).c_str(), std::ios::binary);
+                ofs.open((std::string(username) + "." + exam.get_set().get_ext()).c_str(), std::ios::binary);
                 if (ofs.is_open())
                 {
-                    ex.SaveToFile(ofs, username);
+                    exam.SaveToFile(ofs, username);
                     ofs.close();
                 }
                 EndDialog(hw, 0);
                 break;
             case BN_NEXT:
-                SaveState(ex);
+                SaveState(exam);
                 curr++;
-                if (curr == ex.size()) {
+                if (curr == exam.size()) {
                     curr = 0;
                 }
-                LoadState(ex);
+                LoadState(exam);
                 SetFocus(hwAnswer);
                 break;
             case BN_PREV:
-                SaveState(ex);
+                SaveState(exam);
                 if (curr == 0) {
-                    curr = ex.size() - 1;
+                    curr = exam.size() - 1;
                 }
                 else {
                     curr--;
                 }
-                LoadState(ex);
+                LoadState(exam);
                 break;
             }
             break;
@@ -140,7 +140,7 @@ namespace {
         return 0;
     }
 
-    std::strstream getFileFromResourse() {
+    std::stringstream getFileFromResourse() {
         HRSRC hRes = FindResource(NULL, "DataBase", RT_RCDATA);
         if (!hRes)
         {
@@ -166,24 +166,24 @@ namespace {
             throw std::runtime_error("No database");
         }
 
-        std::strstream ifs = std::strstream();
+        std::stringstream ifs = std::stringstream();
         ifs.write(lpbArray, dwFileSize);
         FreeResource(hGlob);
         return ifs;
     }
 }
 
-int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPTSTR lpCmdLine, int nCmdShow)
+int APIENTRY WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE /*hPrevInstance*/, _In_ LPTSTR /*lpCmdLine*/, _In_ int /*nCmdShow*/)
 {
     try {
         auto ifs = getFileFromResourse();
         // auto ifs = std::ifstream("db.rec", std::ios_base::binary);
         if (ifs)
         {
-            bool res = ex.LoadFromFile(ifs);
+            bool res = exam.LoadFromFile(ifs);
             if (res)
             {
-                ex.MakeAnswerOrder();
+                exam.MakeAnswerOrder();
                 if (0 == DialogBox(hInstance, MAKEINTRESOURCE(IDD_LOGIN), HWND_DESKTOP, DlgProcLogin))
                 {
 

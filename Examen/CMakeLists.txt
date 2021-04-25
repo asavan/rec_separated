@@ -1,4 +1,3 @@
-cmake_minimum_required(VERSION 2.6)
 project(examen)
 SET(SRC 
 	Examination.cpp
@@ -7,7 +6,8 @@ SET(SRC
 	#Questioner.rc  
 	#resource.h 
 )   
-GET_TARGET_PROPERTY(MY_GENERATOR_EXE cdbe LOCATION)
+# GET_TARGET_PROPERTY(MY_GENERATOR_EXE cdbe LOCATION)
+set (MY_GENERATOR_EXE $<TARGET_FILE:cdbe>)
 
 #ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/db.rec
 #	COMMAND  ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../resource/ ./

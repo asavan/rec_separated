@@ -1,5 +1,4 @@
-cmake_minimum_required(VERSION 2.6)
-project(db_editor)
+project(cdbe)
 
 SET(SRC 
 	main.cpp
