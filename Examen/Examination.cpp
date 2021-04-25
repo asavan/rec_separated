@@ -4,7 +4,6 @@
 #include "../Codec/codec.h"
 #include "../Utils/utils.h"
 
-#include <ctime>
 #include <algorithm>
 #include <random>
 
@@ -14,15 +13,15 @@ Examination::~Examination() = default;
 
 void Examination::MakeAnswerOrder()
 {
-    std::srand(unsigned(std::time(nullptr)));
     std::vector<Adress> an;
-    for (int i = 0; i < db.size(); ++i)
-    {
-        int rnd = std::rand() % db[i].size();
-        an.push_back(Adress(i, rnd));
-    }
     std::random_device rd;
     std::mt19937 g(rd());
+    for (int i = 0; i < db.size(); ++i)
+    {
+        std::uniform_int_distribution<int> uniform_dist(0, db[i].size() - 1);
+        int rnd = uniform_dist(g);
+        an.push_back(Adress(i, rnd));
+    }
     std::shuffle(an.begin(), an.end(), g);
     answers.resize(an.size());
     for (int i = 0; i < size(); ++i)

@@ -1,8 +1,6 @@
 #include "Database.h"
 #include "../Codec/codec.h"
 #include "../Utils/utils.h"
-#include <stdexcept>
-#include <cstdlib>
 
 namespace {
     inline bool empty_symbol(char c)
