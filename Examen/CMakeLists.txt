@@ -7,9 +7,9 @@ SET(SRC
 
 configure_file(Questioner.rc Questioner.rc COPYONLY)
 configure_file(resource.h resource.h COPYONLY)
+file(COPY ../resource/ DESTINATION ./)
 
 ADD_CUSTOM_COMMAND(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/db.rec
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${CMAKE_CURRENT_SOURCE_DIR}/../resource/ ./
 	COMMAND cdbe	
 	DEPENDS cdbe
 )
