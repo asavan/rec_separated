@@ -92,9 +92,8 @@ std::string Stats::get_static() const
     return static_str;
 }
 
-Stats::Stats(Reader* read) : changed(false)
+Stats::Stats(Reader* read) : changed(false), r(read)
 {
-    r = read;
     save_string = SaveStringToTextFile;
 }
 
@@ -235,7 +234,7 @@ int Stats::MakeReport()
 
 bool Reader::saveToFile(const std::string& fname)
 {
-    std::ofstream ofs(fname.c_str(), std::ios::out | std::ios::in | std::ios::ate | std::ios::binary);
+    std::ofstream ofs(fname, std::ios::out | std::ios::in | std::ios::ate | std::ios::binary);
     if (!ofs.is_open()) {
         return false;
     }

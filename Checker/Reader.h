@@ -1,13 +1,17 @@
 #pragma once
 #include "../Settings/Settings.h"
-#include<vector>
-#include <fstream>
+#include <vector>
+#include <string>
+#include <iostream>
 
 class Stats;
 class Reader
 {
 public:
 	friend Stats; // fix this
+
+	Reader() = default;
+	~Reader() = default;
 
 	bool is_first() const;
 	void set_first(bool i) { _is_first = i; }
@@ -25,6 +29,10 @@ public:
 
 	bool isAllCheked() const { return (stats[0] == 0); }
 
+private:
+	Reader(const Reader&) = delete;
+	Reader& operator=(const Reader&) = delete;
+	Reader(Reader&&) = delete;
 
 private:
 	struct answer
@@ -53,6 +61,7 @@ class Stats
 {		
 public:
 	explicit Stats(Reader* read);
+	~Stats() = default;
 
 	enum exit_mark{ one , two, three, four, five};
 	exit_mark make_exit_mark() const;
@@ -71,6 +80,10 @@ public:
 	std::string getHeaderString2(int curr) const;
 	
 private:
+	Stats(const Stats&) = delete;
+	Stats& operator=(const Stats&) = delete;
+	Stats(Stats&&) = delete;
+
 	void (*save_string)(std::ostream &os, const std::string &str);
 	std::string make_string_from_mark(exit_mark m) const;
 
