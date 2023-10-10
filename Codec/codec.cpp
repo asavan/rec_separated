@@ -73,7 +73,7 @@ void SaveStringToTextFile(std::ostream& os, const std::string& str)
 std::string IntToString(int in, int field_size)
 {
     std::string s = std::to_string(in);
-    if (s.size() < field_size) {
+    if (size_as_int(s) < field_size) {
         s.insert(s.begin(), field_size - s.size(), ' ');
     }
     return s;

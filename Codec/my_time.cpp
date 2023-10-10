@@ -1,30 +1,27 @@
 #include "my_time.h"
 #include <string>
-#include <ctime>
+#include <chrono>
+#include <format>
 
 class my_time_realization
 {
     std::string _time;
     std::string _date;
-    std::time_t ltime;
+    std::chrono::time_point<std::chrono::steady_clock> _ltime;
 public:
     my_time_realization();
-    time_t get_time_start() const { return ltime; }
+    std::chrono::time_point<std::chrono::steady_clock> get_time_start() const { return _ltime; }
     std::string get_time() const { return _time; }
     std::string get_date() const { return _date; }
 };
 
 my_time_realization::my_time_realization()
 {
-    ltime = std::time(nullptr);
-    const int buf_size = 32;
-    char buffer[buf_size];
-    struct tm tM;
-    localtime_s(&tM , &ltime);
-    std::strftime(buffer, buf_size, "%H:%M:%S", &tM);
-    _time = std::string(buffer);
-    std::strftime(buffer, buf_size, "%d.%m.%Y", &tM);
-    _date = std::string(buffer);
+    auto const time = std::chrono::current_zone()
+        ->to_local(std::chrono::system_clock::now());
+    _ltime = std::chrono::steady_clock::now();
+    _time = std::format("{:%T}", time);
+    _date = std::format("{:%d.%m.%Y}", time);
 }
 
 my_time::my_time() : realization(new my_time_realization())
@@ -35,12 +32,8 @@ my_time::~my_time() = default;
 
 std::string my_time::get_time_differense() const
 {
-    time_t timeElapsed = std::time(nullptr) - realization->get_time_start();
-    const int buf_size = 128;
-    char c_str[buf_size];
-    snprintf(c_str, buf_size, "%d:%.2d:%.2d", (int)(timeElapsed / 3600), (int)((timeElapsed / 60) % 60), (int)(timeElapsed % 60));
-    std::string temp = c_str;
-    return temp;
+    auto timeElapsed = std::chrono::duration_cast<std::chrono::seconds>(std::chrono::steady_clock::now() - realization->get_time_start());
+    return std::format("{:%T}", timeElapsed);
 }
 
 std::string my_time::get_time() const

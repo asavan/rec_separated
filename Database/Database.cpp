@@ -176,7 +176,7 @@ void Database::SaveToBinFile(std::ostream& os) const
 {
     os.write(sign, sizeof(sign));
     set.SaveToFile(os, Codec::SaveStringToFile);
-    for (size_t i = 0; i < size(); ++i)
+    for (int i = 0; i < size(); ++i)
     {
         zones[i].SaveToBinFile(os);
     }
