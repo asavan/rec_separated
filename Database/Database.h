@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <string>
-#include <ostream>
+#include <iosfwd>
 
 class Adress
 {

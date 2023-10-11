@@ -2,6 +2,7 @@
 #include "../Utils/utils.h"
 
 #include <vector>
+#include <iostream>
 
 namespace Codec {
 

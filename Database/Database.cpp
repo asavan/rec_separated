@@ -2,6 +2,10 @@
 #include "../Codec/codec.h"
 #include "../Utils/utils.h"
 
+#include <iostream>
+#include <stdexcept>
+
+
 namespace {
     inline bool empty_symbol(char c)
     {

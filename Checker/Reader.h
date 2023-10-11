@@ -2,7 +2,8 @@
 #include "../Settings/Settings.h"
 #include <vector>
 #include <string>
-#include <iostream>
+#include <iosfwd>
+#include <ios>
 
 class Stats;
 class Reader
